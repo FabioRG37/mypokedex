@@ -1,60 +1,30 @@
+# MyPokédex
 
-# MyPokedex
+Projeto simples criado com **Ionic + Angular** que consome a [PokeAPI](https://pokeapi.co) para exibir informações sobre Pokémon. O objetivo principal é praticar desenvolvimento mobile híbrido com Angular e Ionic, integrando requisições HTTP, navegação, grid responsivo e UI moderna.
 
-Projeto criado com **Ionic + Angular** que consome dados da [PokeAPI](https://pokeapi.co/).
+## 🚀 Funcionalidades implementadas
 
-## 🔍 Objetivo
+- Tela inicial com listagem de **20 Pokémons**.
+- Layout de **cards organizados em prateleiras (grid 5xN)**.
+- **Imagem e nome** de cada Pokémon na listagem.
+- Navegação entre páginas utilizando **Angular Router**.
+- Página de **detalhes do Pokémon** com:
+  - Card estilizado (fundo prateado, cantos arredondados, sombra).
+  - Imagem ampliada.
+  - Nome, altura, peso, XP base e tipos do Pokémon.
+  - **Skeleton loader** enquanto os dados são carregados.
+  - Botões **"Anterior" e "Próximo"** para navegar entre Pokémons por ID.
 
-A aplicação exibe informações de Pokémons, como **nome** e **imagem**, e será expandida com funcionalidades como listagem, busca e detalhes.
+## 🔧 Tecnologias utilizadas
 
-## 🚀 Tecnologias utilizadas
-
-- [Ionic Framework](https://ionicframework.com/)
+- [Ionic](https://ionicframework.com/)
 - [Angular](https://angular.io/)
-- [PokeAPI](https://pokeapi.co/)
-- TypeScript
-- HTML / SCSS
+- [TypeScript](https://www.typescriptlang.org/)
+- [PokeAPI](https://pokeapi.co)
 
-## 🧪 Como executar o projeto localmente
+## ▶️ Como rodar o projeto localmente
 
-1. Clone o repositório:
-
-```bash
-git clone https://github.com/FabioRG37/mypokedex.git
-cd mypokedex
-```
-
-2. Instale as dependências:
-
-```bash
-npm install
-```
-
-3. Execute o projeto:
-
-```bash
-ionic serve
-```
-
-O app será aberto no navegador em `http://localhost:8100`.
-
-## 📁 Estrutura inicial
-
-```
-src/
-├── app/
-│   ├── home/             # Página inicial com exibição de Pokémon
-│   └── services/         # Serviço para consumo da API
-└── index.html
-```
-
-## 📌 Próximos passos
-
-* [ ] Exibir lista com múltiplos Pokémons
-* [ ] Adicionar campo de busca
-* [ ] Criar página de detalhes por Pokémon
-
----
-
-Feito com 💙 por [Fábio Gonçalves](https://github.com/FabioRG37)
-
+1. **Clone o repositório**
+   ```bash
+   git clone https://github.com/FabioRG37/mypokedex.git
+   cd mypokedex
