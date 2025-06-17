@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { PokemonService } from '../services/pokemon.service';
 
 @Component({
   selector: 'app-home',
@@ -6,8 +7,21 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
   standalone: false,
 })
-export class HomePage {
+export class HomePage implements OnInit {
+  pokemon: any;
 
-  constructor() {}
+  constructor(private pokemonService: PokemonService) {}
+
+  ngOnInit(): void {
+    this.pokemonService.getPokemon('bulbasaur').subscribe(
+      (data) => {
+        console.log('Pokémon data:', data);
+        this.pokemon = data;
+      },
+      (error) => {
+        console.error('Error fetching Pokémon data:', error);
+      }
+    );
+  }
 
 }
