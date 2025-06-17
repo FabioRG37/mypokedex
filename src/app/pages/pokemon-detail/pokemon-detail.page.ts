@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { PokemonService } from '../../services/pokemon.service';
@@ -16,23 +16,40 @@ export class PokemonDetailPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private pokemonService: PokemonService
   ) { }
 
-  ngOnInit() {
-    const name = this.route.snapshot.paramMap.get('name'); // Get Pokémon name from route parameters
+  isLoading: boolean = true; // Variable to track loading state
+
+ ngOnInit() {
+  this.route.paramMap.subscribe((params) => {
+    const name = params.get('name');
     if (name) {
-      this.pokemonService.getPokemonByName(name).subscribe(
+      this.pokemonService.getPokemon(name).subscribe(
         (data) => {
-          this.pokemon = data; // Assign the fetched Pokémon data to the variable
+          this.pokemon = data;
+          this.isLoading = false;
         },
         (error) => {
-          console.error('Error fetching Pokémon details:', error);
+          console.error('Erro ao buscar detalhes do Pokémon:', error);
+          this.isLoading = false;
         }
       );
-    } else {
-      console.error('No Pokémon name provided in route parameters.');
+    }
+  });
+  }
+
+  goToPrevious() {
+    const id = this.pokemon.id;
+    if (id > 1) {
+      this.router.navigate(['/pokemon-detail', id - 1]);
     }
   }
 
+  goToNext() {
+    const id = this.pokemon.id;
+    this.router.navigate(['/pokemon-detail', id + 1]);
+  }
 }
+
