@@ -1,4 +1,4 @@
-````markdown
+
 # MyPokédex
 
 Projeto desenvolvido com **Ionic + Angular**, que consome a [PokeAPI](https://pokeapi.co) para listar e exibir detalhes dos Pokémons.
