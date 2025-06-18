@@ -28,7 +28,7 @@
 
     <h2>{{ pokemon?.name | titlecase }}</h2>
 
-    <ion-chip color="primary" *ngFor="let type of pokemon?.types">
+    <ion-chip color="light" *ngFor="let type of pokemon?.types">
       {{ type.type.name | titlecase }}
     </ion-chip>
 
