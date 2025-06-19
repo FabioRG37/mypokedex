@@ -26,6 +26,10 @@ export class PokemonService {
     return this.http.get(`https://pokeapi.co/api/v2/pokemon/${name.toLocaleLowerCase()}`);
   }
 
+  getAllPokemonNames() {
+    return this.http.get(`https://pokeapi.co/api/v2/pokemon?limit=1300`);
+  }
+
   getPokemonByUrl(url: string) {
     return this.http.get<any>(url);
   }

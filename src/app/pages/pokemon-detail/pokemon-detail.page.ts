@@ -13,6 +13,7 @@ import { PokemonService } from '../../services/pokemon.service';
 })
 export class PokemonDetailPage implements OnInit {
   pokemon: any; // Variable to hold Pokémon details
+  stats: any[] = []; // Variable to hold Pokémon stats
 
   constructor(
     private route: ActivatedRoute,
@@ -22,22 +23,21 @@ export class PokemonDetailPage implements OnInit {
 
   isLoading: boolean = true; // Variable to track loading state
 
- ngOnInit() {
-  this.route.paramMap.subscribe((params) => {
-    const name = params.get('name');
-    if (name) {
-      this.pokemonService.getPokemon(name).subscribe(
-        (data) => {
-          this.pokemon = data;
-          this.isLoading = false;
-        },
-        (error) => {
-          console.error('Erro ao buscar detalhes do Pokémon:', error);
-          this.isLoading = false;
-        }
-      );
+  ngOnInit() {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    const id = idParam ? Number(idParam) : null;
+    if (id !== null && !isNaN(id)) {
+      this.pokemonService.getPokemonById(id).subscribe((poke: any) => {
+        this.pokemon = poke;
+        this.stats = poke.stats.map((s: any) => ({
+          name: s.stat.name,
+          value: s.base_stat
+        }));
+      });
+    } else {
+      // Handle invalid id (optional)
+      this.router.navigate(['/']);
     }
-  });
   }
 
   goToPrevious() {

@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PokemonService } from '../services/pokemon.service';
 import { lastValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -15,16 +16,29 @@ import { lastValueFrom } from 'rxjs';
 })
 export class HomePage implements OnInit {
   pokemons: any[] = [];
+  allPokemonNames: any[] = [];
+  favorites: number[] = []; // Array to hold favorite Pokémon IDs
+  // Pagination variables
   offset: number = 0;
   limit: number = 20;
   isLoading: boolean = false;
   searchTerm: string = '';
-  router: any;
   filteredPokemons: any[] = []; // Variable to hold filtered Pokémon list
+  showFavoritesOnly = false; // Flag to toggle favorite view
 
-  constructor(private pokemonService: PokemonService) {}
+  constructor(
+    private pokemonService: PokemonService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
+    const stored = localStorage.getItem('favorites');
+    this.favorites = stored ? JSON.parse(stored) : [];
+    // Load all Pokémon names for search functionality
+    this.pokemonService.getAllPokemonNames().subscribe((data: any) => {
+      this.allPokemonNames = data.results;
+    });
+    // Load initial Pokémon data
     this.loadPokemons();
   }
 
@@ -57,38 +71,54 @@ export class HomePage implements OnInit {
     return Number(parts[parts.length - 2]);
   }
 
-  goToDetail(pokemon: any) {
+  goToDetail(id: number) {
     // Navigate to the Pokémon detail page with the Pokémon name
-    this.router.navigate(['/pokemon-detail', pokemon.id]);
+    this.router.navigate(['/pokemon-detail', id]);
   }
 
   filterPokemons() {
     const term = this.searchTerm.toLowerCase().trim();
+
     if (term === '') {
       this.filteredPokemons = [...this.pokemons];
       return;
-    } else {
-      this.filteredPokemons = this.pokemons.filter((poke) =>
-        poke.name.toLowerCase().includes(term)
-      );
-    }
+    } 
+
+    const matched = this.allPokemonNames.filter((p) =>
+      p.name.toLowerCase().includes(term)
+    );
+
+    // Limita quantidade de sugestões para evitar sobrecarga
+    const topMatches = matched.slice(0, 20);
 
     this.isLoading = true;
-    this.pokemonService.getPokemonByName(term).subscribe(
-      (poke: any) => {
-        const pokemon = {
-          name: poke.name,
-          id: poke.id,
-          image: poke.sprites.front_default
-        };
-        this.filteredPokemons = [pokemon];
-        this.isLoading = false;
-      },
-      (error) => {
-        console.error('Pokémon não encontrado:', error);
-        this.filteredPokemons = []; // limpa lista se erro
-        this.isLoading = false;
-      }
-    );
+    this.filteredPokemons = topMatches.map(p => {
+    const id = this.extractIdFromUrl(p.url);
+    return {
+      id,
+      name: p.name,
+      image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+    };
+  });
+  }
+
+  toggleFavorite(id: number) {
+    if (this.isFavorite(id)) {
+      this.favorites = this.favorites.filter(fav => fav !== id);
+    } else {
+      this.favorites.push(id);
+    }
+    localStorage.setItem('favorites', JSON.stringify(this.favorites));
+  }
+
+  isFavorite(id: number): boolean {
+    return this.favorites.includes(id);
+  }
+
+  get displayedPokemons() {
+    if (this.showFavoritesOnly) {
+      return this.filteredPokemons.filter(p => this.isFavorite(p.id));
+    }
+    return this.filteredPokemons;
   }
 }

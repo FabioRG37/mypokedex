@@ -7,8 +7,12 @@ const routes: Routes = [
     loadComponent: () => import('./home/home.page').then( m => m.HomePage)
   },
   {
-    path: 'pokemon-detail/:name',
-    loadChildren: () => import('./pages/pokemon-detail/pokemon-detail.module').then( m => m.PokemonDetailPageModule)
+    path: 'pokemon-detail/:id',
+    loadComponent: () => import('./pages/pokemon-detail/pokemon-detail.page').then( m => m.PokemonDetailPage)
+  },
+  {
+    path: 'favorites',
+    loadComponent: () => import('./pages/favorites/favorites.page').then( m => m.FavoritesPage)
   },
 ];
 

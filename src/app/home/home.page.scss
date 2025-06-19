@@ -28,11 +28,16 @@
 
 .pokemon-image {
   display: block;
-  margin: 0 auto;
+  margin: 8px auto;
   width: 100px;
   height: 100px;
 }
 
+.pokemon-card {
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 2px 8x rgba(0, 0, 0, 0.1);
+}
 .spinner-center {
   display: block;
   margin: 16px auto;

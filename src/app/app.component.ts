@@ -7,5 +7,10 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class AppComponent {
+  public appPages = [
+    { title: 'início', url: '/home', icon: 'home' },
+    { title: 'Favoritos', url: '/favorites', icon: 'heart' }
+  ];
+
   constructor() {}
 }
