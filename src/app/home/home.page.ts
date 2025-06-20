@@ -46,7 +46,6 @@ export class HomePage implements OnInit {
     this.isLoading = true;
     this.pokemonService.getPokemonList(this.offset, this.limit).subscribe((data) => {
       const results = data.results;
-      console.log("Resultados:", results);
 
       results.forEach((p: any) => {
         const id = this.extractIdFromUrl(p.url);
@@ -103,7 +102,7 @@ export class HomePage implements OnInit {
   }
 
   toggleFavorite(id: number) {
-    if (this.isFavorite(id)) {
+    if (this.favorites.includes(id)) {
       this.favorites = this.favorites.filter(fav => fav !== id);
     } else {
       this.favorites.push(id);

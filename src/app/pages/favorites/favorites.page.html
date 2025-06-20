@@ -5,14 +5,22 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6" size-sm="4" size-md="3" size-lg="2.4" *ngFor="let poke of favorites">
-        <ion-card (click)="goToDetail(poke.id)" class="pokemon-card">
-          <img [src]="poke.image" alt="{{ poke.name }}" />
-          <ion-card-content>{{ poke.name || ('#' + poke.id) }}</ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <div class="page-content">
+    <ion-spinner *ngIf="isLoading" class="ion-margin" name="crescent"></ion-spinner>
+      
+    <ion-grid>
+      <ion-row *ngif="favorites.length > 0">
+        <ion-col size="12" size-sm="6" size-md="3" *ngFor="let poke of favorites">
+          <ion-card (click)="goToDetail(poke.id)" class="pokemon-card">
+            <img [src]="poke.image" alt="{{ poke.name }}" />
+            <ion-card-content>{{ poke.name | titlecase }}</ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+      <ion-text color="medium" *ngIf="!favorites.length && !isLoading">
+        <p class="ion-text-center">Pokémon favorito encontrado.</p>
+      </ion-text>
+    </ion-grid>
+  </div>
 </ion-content>

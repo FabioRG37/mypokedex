@@ -1,3 +1,9 @@
+.page-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
 #container {
   text-align: center;
 
@@ -38,6 +44,7 @@
   border-radius: 12px;
   box-shadow: 0 2px 8x rgba(0, 0, 0, 0.1);
 }
+
 .spinner-center {
   display: block;
   margin: 16px auto;
