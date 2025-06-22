@@ -93,14 +93,6 @@ A aplicação abrirá automaticamente no navegador (geralmente em `http://localh
 
 ---
 
-## 📌 Próximas Funcionalidades (planejadas)
-
-* 📊 Gráfico de atributos com `Chart.js`
-* 🌈 Estilização colorida baseada no tipo do Pokémon
-* 📲 Transformar o app em um PWA (Progressive Web App)
-
----
-
 ## 🗂 Estrutura do Projeto
 
 ```
