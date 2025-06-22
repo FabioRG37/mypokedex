@@ -1,26 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { Router } from '@angular/router';
-import { PokemonService } from 'src/app/services/pokemon.service';
+import { RouterModule, Router } from '@angular/router';
+import { PokemonService } from '../../services/pokemon.service';
 
 @Component({
   selector: 'app-favorites',
   templateUrl: './favorites.page.html',
   styleUrls: ['./favorites.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, RouterModule] // Import necessary modules
+  imports: [IonicModule, CommonModule, RouterModule],
 })
 export class FavoritesPage implements OnInit {
-  favorites: any[] = []; // Array to hold favorite Pokémon IDs
-  favoriteIds: number[] = []; // Array to hold favorite Pokémon IDs
+  favoriteIds: number[] = []; // Somente os IDs armazenados
+  favorites: any[] = [];      // Dados completos dos pokémons
   isLoading = true;
-  
+
   constructor(
     private router: Router,
     private pokemonService: PokemonService
-  ) { }
+  ) {}
 
   ngOnInit() {
     const stored = localStorage.getItem('favorites');
@@ -28,7 +27,7 @@ export class FavoritesPage implements OnInit {
     this.favorites = [];
     this.isLoading = true;
 
-    console.log("IDs favoritos carregados:", this.favoriteIds);
+    console.log('IDs de favoritos encontrados:', this.favoriteIds);
 
     if (this.favoriteIds.length === 0) {
       this.isLoading = false;
@@ -38,17 +37,27 @@ export class FavoritesPage implements OnInit {
     let loaded = 0;
 
     this.favoriteIds.forEach((id: number) => {
-      this.pokemonService.getPokemon(String(id)).subscribe((data: any) => {
-        this.favorites.push({
-          id,
-          name: data.name,
-          image: data.sprites.front_default,
-          types: data.types.map((t: any) => t.type.name)
-        });
+      this.pokemonService.getPokemon(String(id)).subscribe({
+        next: (data: any) => {
+          this.favorites.push({
+            id,
+            name: data.name,
+            image: data.sprites.front_default,
+            types: data.types.map((t: any) => t.type.name)
+          });
 
-        loaded++;
-        if (loaded === this.favoriteIds.length) {
-          this.isLoading = false;
+          loaded++;
+          if (loaded === this.favoriteIds.length) {
+            this.isLoading = false;
+            console.log('Todos os dados dos favoritos carregados:', this.favorites);
+          }
+        },
+        error: (err) => {
+          console.error(`Erro ao carregar Pokémon ID ${id}:`, err);
+          loaded++;
+          if (loaded === this.favoriteIds.length) {
+            this.isLoading = false;
+          }
         }
       });
     });

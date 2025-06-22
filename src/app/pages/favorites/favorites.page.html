@@ -9,7 +9,7 @@
     <ion-spinner *ngIf="isLoading" class="ion-margin" name="crescent"></ion-spinner>
       
     <ion-grid>
-      <ion-row *ngif="favorites.length > 0">
+      <ion-row *ngIf="favorites.length > 0">
         <ion-col size="12" size-sm="6" size-md="3" *ngFor="let poke of favorites">
           <ion-card (click)="goToDetail(poke.id)" class="pokemon-card">
             <img [src]="poke.image" alt="{{ poke.name }}" />
@@ -19,7 +19,7 @@
       </ion-row>
 
       <ion-text color="medium" *ngIf="!favorites.length && !isLoading">
-        <p class="ion-text-center">Pokémon favorito encontrado.</p>
+        <p class="ion-text-center">Nenhum Pokémon favorito encontrado.</p>
       </ion-text>
     </ion-grid>
   </div>
